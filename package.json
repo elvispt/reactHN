@@ -1,0 +1,23 @@
+{
+  "name": "react-hn",
+  "version": "0.0.1",
+  "description": "React base Hacker News clone",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elvispt/reactHN.git"
+  },
+  "author": "Elvis Pestana <elvispt@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/elvispt/reactHN/issues"
+  },
+  "homepage": "https://github.com/elvispt/reactHN#readme",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-react-app": "^3.1.2"
+  }
+}

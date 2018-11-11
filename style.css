@@ -67,6 +67,15 @@ html, body {
 .container .posts-list {
 
 }
+.container .posts-list ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.container .posts-list ul li {
+  margin-bottom: 1rem;
+}
+
 .container .content {
 
 }
