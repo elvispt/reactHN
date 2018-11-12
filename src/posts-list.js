@@ -1,4 +1,4 @@
-'use strict';
+import { Posts } from '/dist/posts.js';
 
 const e = React.createElement;
 
@@ -12,11 +12,12 @@ class PostsList extends React.Component {
           title: "Loading...",
           body: "",
         }
-      ]
+      ],
     };
 
-    fetch("https://jsonplaceholder.typicode.com/posts")
-      .then(response => response.json())
+    this.refresh = this.refresh.bind(this);
+
+    Posts.fetch()
       .then(json => {
         this.setState({items: json});
       });
@@ -24,8 +25,19 @@ class PostsList extends React.Component {
 
   render() {
     return (
-      <PostItems items={this.state.items}/>
+      <div>
+        <button onClick={this.refresh}>Refresh List</button>
+        <PostItems items={this.state.items}/>
+      </div>
     );
+  }
+
+  refresh() {
+    Posts.fetch()
+      .then(json => {
+        json[0].title = "Proof of refresh";
+        this.setState({items: json});
+      });
   }
 }
 
