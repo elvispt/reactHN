@@ -1,5 +1,5 @@
 import { Posts } from '/dist/posts.js';
-import { PostItems } from './components/_post-items'
+import { PostItems } from '/dist/components/_post-items.js'
 
 const e = React.createElement;
 
