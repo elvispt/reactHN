@@ -1,18 +1,29 @@
-let postsList = [];
+import { CONFIG } from './_config.js'
+
+let topStoriesIds = [];
 
 export const _stories = {
+
   fetch: function () {
     return new Promise(function (resolve, reject) {
-      if (postsList.length) {
-        resolve(postsList);
+      if (topStoriesIds.length) {
+        resolve(topStoriesIds);
       } else {
-        fetch("https://jsonplaceholder.typicode.com/posts")
+        fetch(CONFIG.topStoriesUrl)
           .then(response => response.json())
           .then(json => {
-            postsList = json;
-            resolve(postsList);
+            topStoriesIds = json;
+            resolve(topStoriesIds);
           });
       }
     });
+  },
+
+  fetchOne: (id) => {
+    return fetch(CONFIG.itemUrl(id), {
+      mode: "cors"
+    })
+      .then(response => response.json());
   }
+
 };

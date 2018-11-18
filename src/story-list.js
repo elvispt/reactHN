@@ -1,43 +1,39 @@
+'use strict';
 import { _stories } from '/dist/repositories/_stories.js';
 import { StoryItemListing } from '/dist/components/_story-item-listing.js'
 
 const e = React.createElement;
+let posts = [];
 
 class StoryList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: [
-        {
-          id: 0,
-          title: "Loading...",
-          body: "",
-        }
-      ],
+      items: [{id: -666, title: "Loading stories...", score: 0}],
     };
-
     this.refresh = this.refresh.bind(this);
-
-    _stories.fetch()
-      .then(json => {
-        this.setState({items: json});
-      });
+    this.refresh();
   }
 
   render() {
     return (
       <div>
-        <button onClick={this.refresh}>Refresh List</button>
         <StoryItemListing items={this.state.items}/>
       </div>
     );
   }
 
   refresh() {
+    let self = this;
     _stories.fetch()
       .then(json => {
-        json[0].title = "Proof of refresh: time -- " + Date.now();
-        this.setState({items: json});
+        json.forEach(id => {
+          _stories.fetchOne(id)
+            .then(function (response) {
+              posts.push(response);
+              self.setState({ items: posts });
+            });
+        });
       });
   }
 }
