@@ -1,7 +1,6 @@
-
 let postsList = [];
 
-export const Posts = {
+export const _stories = {
   fetch: function () {
     return new Promise(function (resolve, reject) {
       if (postsList.length) {

@@ -20,14 +20,14 @@ html, body {
   /* */
   grid-template-areas:
     "header header"
-    "posts-list content";
+    "story-list content";
   /**/
 }
 @media (max-width: 768px) {
   .container {
     grid-template-areas:
       "header header"
-      "posts-list posts-list"
+      "story-list story-list"
       "content content"
     ;
   }
@@ -36,8 +36,8 @@ html, body {
   grid-area: header;
 }
 
-.container .posts-list {
-  grid-area: posts-list;
+.container .story-list {
+  grid-area: story-list;
 }
 .container .content {
   grid-area: content;
@@ -65,15 +65,15 @@ html, body {
   align-items: center;
 }
 
-.container .posts-list {
+.container .story-list {
 
 }
-.container .posts-list ul {
+.container .story-list ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
-.container .posts-list ul li {
+.container .story-list ul li {
   margin-bottom: 1rem;
 }
 
