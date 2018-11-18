@@ -1,9 +1,9 @@
-import { Posts } from '/dist/posts.js';
-import { PostItems } from '/dist/components/_post-items.js'
+import { _stories } from '/dist/repositories/_stories.js';
+import { StoryItemListing } from '/dist/components/_story-item-listing.js'
 
 const e = React.createElement;
 
-class PostsList extends React.Component {
+class StoryList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,7 +18,7 @@ class PostsList extends React.Component {
 
     this.refresh = this.refresh.bind(this);
 
-    Posts.fetch()
+    _stories.fetch()
       .then(json => {
         this.setState({items: json});
       });
@@ -28,19 +28,19 @@ class PostsList extends React.Component {
     return (
       <div>
         <button onClick={this.refresh}>Refresh List</button>
-        <PostItems items={this.state.items}/>
+        <StoryItemListing items={this.state.items}/>
       </div>
     );
   }
 
   refresh() {
-    Posts.fetch()
+    _stories.fetch()
       .then(json => {
-        json[0].title = "Proof of refresh";
+        json[0].title = "Proof of refresh: time -- " + Date.now();
         this.setState({items: json});
       });
   }
 }
 
-const domContainer = document.getElementById('posts-list');
-ReactDOM.render(e(PostsList), domContainer);
+const domContainer = document.getElementById('story-list');
+ReactDOM.render(e(StoryList), domContainer);

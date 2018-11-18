@@ -1,4 +1,4 @@
-export class PostItems extends React.Component {
+export class StoryItemListing extends React.Component {
   render() {
     return (
       <ul>
