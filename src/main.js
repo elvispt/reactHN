@@ -1,7 +1,7 @@
-import { Header } from '../dist/components/header.js'
-import { StoryList } from '../dist/components/story-list.js'
-import { Content } from '../dist/components/content.js'
-import { _stories } from '../dist/repositories/_stories.js'
+import { Header } from './components/header.js'
+import { StoryList } from './components/story-list.js'
+import { _stories } from './repositories/_stories.js'
+import { Content } from './components/content.js'
 
 const e = React.createElement;
 
@@ -31,7 +31,6 @@ class Main extends React.Component {
   }
 
   changeStory(story) {
-    console.log(story);
     this.setState({story: story, active: story.id });
   }
 

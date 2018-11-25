@@ -1,6 +1,6 @@
-import { CONFIG } from '../../dist/repositories/_config.js'
+import { CONFIG } from '../repositories/_config.js'
 
-export class StoryItemListing extends React.Component {
+export class StoryListItem extends React.Component {
   constructor(props) {
     super(props);
   }

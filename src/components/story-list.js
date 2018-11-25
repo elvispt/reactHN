@@ -1,4 +1,4 @@
-import { StoryItemListing } from '../../dist/components/_story-item-listing.js'
+import { StoryListItem } from './_story-list-item.js'
 
 export class StoryList extends React.Component {
   constructor(props) {
@@ -8,7 +8,7 @@ export class StoryList extends React.Component {
   render() {
     return (
       <div id="story-list" className="story-list">
-        <StoryItemListing items={this.props.items} changeStory={this.props.changeStory} active={this.props.active}/>
+        <StoryListItem items={this.props.items} changeStory={this.props.changeStory} active={this.props.active}/>
       </div>
     );
   }
