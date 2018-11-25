@@ -1,11 +1,9 @@
-'use strict';
-import { _stories } from '/dist/repositories/_stories.js';
-import { StoryItemListing } from '/dist/components/_story-item-listing.js'
+import { StoryItemListing } from '../../dist/components/_story-item-listing.js'
+import { _stories } from '../../dist/repositories/_stories.js'
 
-const e = React.createElement;
 let posts = [];
 
-class StoryList extends React.Component {
+export class StoryList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,7 +15,7 @@ class StoryList extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id="story-list" className="story-list">
         <StoryItemListing items={this.state.items}/>
       </div>
     );
@@ -37,6 +35,3 @@ class StoryList extends React.Component {
       });
   }
 }
-
-const domContainer = document.getElementById('story-list');
-ReactDOM.render(e(StoryList), domContainer);
