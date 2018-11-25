@@ -13,7 +13,7 @@ export class StoryListItem extends React.Component {
             <span className="title">{item.title}</span>
             <a href={item.url} title="Open in new window/tab" target="_blank">[>]</a>
             <div>
-              <small>S: {item.score} | {item.time} | C: {item.descendants} | <a href={CONFIG.hnCommentsPage(item.id)} target="_blank" rel="nofollow">[hn >]</a></small>
+              <small>S: {item.score} | {moment(item.time * 1000).fromNow()} | C: {item.descendants} | <a href={CONFIG.hnCommentsPage(item.id)} target="_blank" rel="nofollow">[hn >]</a></small>
             </div>
           </li>
         ))}
