@@ -1,23 +1,52 @@
 import { Header } from '../dist/components/header.js'
 import { StoryList } from '../dist/components/story-list.js'
 import { Content } from '../dist/components/content.js'
+import { _stories } from '../dist/repositories/_stories.js'
 
 const e = React.createElement;
+
+let _posts = [];
 
 class Main extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      active: -666,
+      items: [{id: -666, title: "Loading stories...", score: 0, descendants: 0, by: ''}],
+      story: { title: "Click on a story"}
+    };
+    this.refresh = this.refresh.bind(this);
+    this.refresh();
+    this.changeStory = this.changeStory.bind(this);
   }
 
   render() {
     return (
       <div id="container" className="container">
         <Header/>
-        <StoryList/>
-        <Content/>
+        <StoryList items={this.state.items} changeStory={this.changeStory} active={this.state.active}/>
+        <Content story={this.state.story}/>
       </div>
-  );
+    );
+  }
+
+  changeStory(story) {
+    console.log(story);
+    this.setState({story: story, active: story.id });
+  }
+
+  refresh() {
+    let self = this;
+    _stories.fetch()
+      .then(json => {
+        json.forEach(id => {
+          _stories.fetchOne(id)
+            .then(function (response) {
+              _posts.push(response);
+              self.setState({ items: _posts });
+            });
+        });
+      });
   }
 }
 
