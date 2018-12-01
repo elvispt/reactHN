@@ -1,5 +1,5 @@
 
-class Helpers {
+export class Helpers {
   /**
    * Parses a string to attempt to find a domain
    * @param url

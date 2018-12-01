@@ -12,7 +12,7 @@ class Main extends React.Component {
     super(props);
     this.state = {
       active: -666,
-      items: [{id: -666, title: "Loading stories...", score: 0, descendants: 0, by: ''}],
+      items: [{id: -666, title: "Loading stories...", score: 0, descendants: 0, by: '', visited: false}],
       story: { title: "Click on a story"}
     };
     this.refresh = this.refresh.bind(this);
@@ -32,6 +32,7 @@ class Main extends React.Component {
 
   changeStory(story) {
     this.setState({story: story, active: story.id });
+    story.visited = true;
   }
 
   refresh() {
@@ -41,6 +42,7 @@ class Main extends React.Component {
         json.forEach(id => {
           _stories.fetchOne(id)
             .then(function (response) {
+              response.visited = false;
               _posts.push(response);
               self.setState({ items: _posts });
             });

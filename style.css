@@ -2,6 +2,7 @@
 :root {
   --bg: #FFFFFF;
   --primary: #424242;
+  --visited: #949494;
 }
 /* ./VARIABLES */
 
@@ -103,6 +104,9 @@ a:hover {
   font-weight: bold;
   background: var(--primary);
   color: var(--bg);
+}
+.container .story-list ul li.visited .title {
+  color: var(--visited);
 }
 .container .story-list ul li.active a {
   color: var(--bg);
