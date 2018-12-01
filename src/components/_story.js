@@ -1,25 +1,34 @@
+import { Helpers } from '../libraries/_helpers.js';
+
 export class Story extends React.Component {
+  constructor(props) {
+    super(props);
+    this.hostname = this.hostname.bind(this);
+  }
+
+  hostname(url) {
+    const hostname = Helpers.hostname(url);
+    if (hostname) {
+      return `(${hostname})`;
+    }
+    return '';
+  }
+
   render() {
     return (
       <div className="story">
         <div>
-          TITLE <small>(domain.com)</small>
+          {this.props.story.title} <small>{this.hostname(this.props.story.url)}</small>
           <div>
             <small>
-              <span>123</span> | <span>2 hours ago</span> | <span>123 comments</span>
+              <span>{this.props.story.score}</span> |
+              <span> by {this.props.story.by}</span> |
+              <span> {moment(this.props.story.time * 1000).fromNow()}</span> |
+              <span> {this.props.story.descendants} comments</span>
             </small>
           </div>
         </div>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi aperiam dolorem facilis ipsam maiores minima
-          molestiae, necessitatibus numquam praesentium quam quasi reiciendis similique tenetur velit voluptas? Alias
-          architecto asperiores aspernatur assumenda beatae consequatur eligendi et, fugiat ipsa iure laboriosam modi
-          mollitia nesciunt possimus praesentium recusandae rem similique sunt tempore ut vel vitae, voluptates. Amet
-          consectetur eos, fugit ipsam iure minima minus omnis perspiciatis placeat porro quidem, quo quod tempore ullam
-          ut vitae voluptate voluptatum? Dolore ipsam, iusto labore nobis possimus quaerat quas quos! Adipisci
-          asperiores consequatur dolor doloremque excepturi facere iste minima, odit porro provident, quam quos rerum
-          velit, veritatis?
-        </p>
+        <p dangerouslySetInnerHTML={{ __html: this.props.story.text }}></p>
       </div>
     );
   }
