@@ -1,4 +1,4 @@
-import { CONFIG } from './_config.js'
+import { CONFIG } from './_config.js';
 
 let topStoriesIds = [];
 

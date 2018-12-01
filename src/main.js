@@ -1,7 +1,7 @@
-import { Header } from './components/header.js'
-import { StoryList } from './components/story-list.js'
-import { _stories } from './repositories/_stories.js'
-import { Content } from './components/content.js'
+import { Header } from './components/header.js';
+import { StoryList } from './components/story-list.js';
+import { _stories } from './repositories/_stories.js';
+import { Content } from './components/content.js';
 
 const e = React.createElement;
 

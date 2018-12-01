@@ -1,4 +1,4 @@
-import { Story } from './_story.js'
+import { Story } from './_story.js';
 
 export class Content extends React.Component {
   constructor(props) {

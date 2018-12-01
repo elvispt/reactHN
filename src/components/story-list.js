@@ -1,4 +1,4 @@
-import { StoryListItem } from './_story-list-item.js'
+import { StoryListItem } from './_story-list-item.js';
 
 export class StoryList extends React.Component {
   constructor(props) {
