@@ -79,6 +79,22 @@ a:hover {
 }
 .container .header a {
   color: var(--bg);
+  padding-left: .5rem;
+  padding-right: .5rem;
+  cursor: pointer;
+}
+.container .header a:first-child {
+  border-right: 2px solid var(--bg);
+}
+.container .header a:last-child {
+  border-left: 2px solid var(--bg);
+}
+.container .header a:nth-child(2) {
+  margin-left: -2px;
+  margin-right: -2px;
+}
+.container .header a.active {
+  border-bottom: 2px solid var(--bg);
 }
 .container .header > div {
   display: flex;

@@ -12,6 +12,7 @@ class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      page: CONFIG.pages.TOP,
       active: -666,
       items: [{id: -666, title: "Loading stories...", score: 0, descendants: 0, by: '', visited: false}],
       story: { title: "Click on a story"}
@@ -19,12 +20,13 @@ class Main extends React.Component {
     this.refresh = this.refresh.bind(this);
     this.refresh();
     this.changeStory = this.changeStory.bind(this);
+    this.changePage = this.changePage.bind(this);
   }
 
   render() {
     return (
       <div id="container" className="container">
-        <Header/>
+        <Header page={this.state.page} changePage={this.changePage}/>
         <StoryList items={this.state.items} changeStory={this.changeStory} active={this.state.active}/>
         <Content story={this.state.story}/>
       </div>
@@ -34,6 +36,15 @@ class Main extends React.Component {
   changeStory(story) {
     this.setState({story: story, active: story.id });
     story.visited = true;
+  }
+
+  /**
+   * Triggers a page change
+   * TODO: Load stories for the chosen page
+   * @param page
+   */
+  changePage(page) {
+    this.setState({page});
   }
 
   /**
