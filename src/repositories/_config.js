@@ -7,5 +7,10 @@ export const CONFIG = {
     TOP: 1,
     NEW: 2,
     BEST: 3,
-  }
+  },
+  sortTypes: {
+    SCORE: 1,
+    COMMENTS: 2,
+    AGE: 3,
+  },
 };

@@ -6,28 +6,37 @@ import { CONFIG } from './repositories/_config.js';
 
 const e = React.createElement;
 
-let _posts = [];
+let _storyPile = [];
 
 class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       page: CONFIG.pages.TOP,
+      sort: CONFIG.sortTypes.SCORE,
       active: -666,
       items: [{id: -666, title: "Loading stories...", score: 0, descendants: 0, by: '', visited: false}],
       story: { title: "Click on a story"}
     };
-    this.refresh = this.refresh.bind(this);
-    this.refresh();
     this.changeStory = this.changeStory.bind(this);
     this.changePage = this.changePage.bind(this);
+    this.sortByScore = this.sortByScore.bind(this);
+    this.sortByComments = this.sortByComments.bind(this);
+    this.fetchAllStories = this.fetchAllStories.bind(this);
+    this.fetchAllStories();
   }
 
   render() {
     return (
       <div id="container" className="container">
         <Header page={this.state.page} changePage={this.changePage}/>
-        <StoryList items={this.state.items} changeStory={this.changeStory} active={this.state.active}/>
+        <StoryList items={this.state.items}
+                   changeStory={this.changeStory}
+                   active={this.state.active}
+                   sort={this.state.sort}
+                   sortByScore={this.sortByScore}
+                   sortByComments={this.sortByComments}
+        />
         <Content story={this.state.story}/>
       </div>
     );
@@ -50,33 +59,63 @@ class Main extends React.Component {
   /**
    * Sort stories by score
    */
-  static sortByScore() {
-    _posts.sort(function (a, b) {
+  sortByScore() {
+    _storyPile.sort(function (a, b) {
       return a.score > b.score ? -1 : 1;
     });
+    this.setState({ items: _storyPile, sort: CONFIG.sortTypes.SCORE });
   }
 
-  refresh() {
-    let self = this;
+  /**
+   * Sort stories by number of comments
+   */
+  sortByComments() {
+    _storyPile.sort(function (a, b) {
+      return b.descendants - a.descendants;
+    });
+    this.setState({ items: _storyPile, sort: CONFIG.sortTypes.COMMENTS });
+  }
+
+  fetchAllStories() {
     _stories.fetch()
       .then(json => {
-        json.forEach(id => {
-          _stories.fetchOne(id)
-            .then(function (response) {
-              if (response.score > CONFIG.minScoreForTopStory) {
-                response.visited = false;
-                _posts.push(response);
-                return true;
-              }
-            })
-            .then(function (isPushed) {
-              if (isPushed) {
-                Main.sortByScore();
-                self.setState({ items: _posts });
-              }
-            });
-        });
+        json.forEach(this.fetchStory.bind(this));
       });
+  }
+
+  fetchStory(id) {
+    _stories.fetchOne(id)
+      .then(this.addStoryToPile)
+      .then(this.sortStories.bind(this));
+  }
+
+  /**
+   * Check if this story should be added to the pile
+   * @param story
+   * @returns {boolean}
+   */
+  addStoryToPile(story) {
+    if (story.score > CONFIG.minScoreForTopStory) {
+      story.visited = false;
+      _storyPile.push(story);
+      return true;
+    }
+    return false;
+  }
+
+  sortStories(isPushed) {
+    if (isPushed) {
+      switch (this.state.sort) {
+        case CONFIG.sortTypes.SCORE:
+          this.sortByScore();
+          break;
+        case CONFIG.sortTypes.COMMENTS:
+          this.sortByComments();
+          break
+        case CONFIG.sortTypes.AGE:
+        // TODO: Implement sorting by age of story
+      }
+    }
   }
 }
 

@@ -3,10 +3,10 @@ import { Helpers } from '../libraries/_helpers.js';
 export class Story extends React.Component {
   constructor(props) {
     super(props);
-    this.hostname = this.hostname.bind(this);
+    Story.hostname = Story.hostname.bind(this);
   }
 
-  hostname(url) {
+  static hostname(url) {
     const hostname = Helpers.hostname(url);
     if (hostname) {
       return `(${hostname})`;
@@ -18,7 +18,7 @@ export class Story extends React.Component {
     return (
       <div className="story">
         <div>
-          {this.props.story.title} <small>{this.hostname(this.props.story.url)}</small>
+          {this.props.story.title} <small>{Story.hostname(this.props.story.url)}</small>
           <div>
             <small>
               <span>{this.props.story.score}</span> |

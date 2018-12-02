@@ -107,7 +107,36 @@ a:hover {
   overflow: scroll;
   padding-left: 0;
   padding-right: 0;
+  padding-top: 0;
 }
+.container .story-list .sort-by {
+  padding-top: 0;
+  height: 2.5rem;
+  background-color: var(--primary);
+}
+.container .story-list .sort-by > button {
+  border: 1px solid var(--primary);
+  background-color: var(--visited);
+  border-radius: 0;
+  width: 33.33333333%;
+  height: 2rem;
+  cursor: pointer;
+}
+.container .story-list .sort-by > button:first-child {
+  border-left: none;
+}
+.container .story-list .sort-by > button:last-child {
+  border-right-width: 2px;
+}
+.container .story-list .sort-by > button > div {
+  width: 100%;
+  height: 100%;
+  border-bottom: 0.8rem solid var(--visited);
+}
+.container .story-list .sort-by > button.active > div {
+  border-bottom-color: var(--primary);
+}
+
 .container .story-list ul {
   list-style-type: none;
   padding: 0;
