@@ -2,6 +2,7 @@ import { Header } from './components/header.js';
 import { StoryList } from './components/story-list.js';
 import { _stories } from './repositories/_stories.js';
 import { Content } from './components/content.js';
+import { CONFIG } from './repositories/_config.js';
 
 const e = React.createElement;
 
@@ -35,6 +36,15 @@ class Main extends React.Component {
     story.visited = true;
   }
 
+  /**
+   * Sort stories by score
+   */
+  static sortByScore() {
+    _posts.sort(function (a, b) {
+      return a.score > b.score ? -1 : 1;
+    });
+  }
+
   refresh() {
     let self = this;
     _stories.fetch()
@@ -42,9 +52,17 @@ class Main extends React.Component {
         json.forEach(id => {
           _stories.fetchOne(id)
             .then(function (response) {
-              response.visited = false;
-              _posts.push(response);
-              self.setState({ items: _posts });
+              if (response.score > CONFIG.minScoreForTopStory) {
+                response.visited = false;
+                _posts.push(response);
+                return true;
+              }
+            })
+            .then(function (isPushed) {
+              if (isPushed) {
+                Main.sortByScore();
+                self.setState({ items: _posts });
+              }
             });
         });
       });
