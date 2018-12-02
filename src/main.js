@@ -6,7 +6,7 @@ import { CONFIG } from './repositories/_config.js';
 
 const e = React.createElement;
 
-let _posts = [];
+let _storyPile = [];
 
 class Main extends React.Component {
   constructor(props) {
@@ -18,12 +18,12 @@ class Main extends React.Component {
       items: [{id: -666, title: "Loading stories...", score: 0, descendants: 0, by: '', visited: false}],
       story: { title: "Click on a story"}
     };
-    this.refresh = this.refresh.bind(this);
-    this.refresh();
     this.changeStory = this.changeStory.bind(this);
     this.changePage = this.changePage.bind(this);
     this.sortByScore = this.sortByScore.bind(this);
     this.sortByComments = this.sortByComments.bind(this);
+    this.fetchAllStories = this.fetchAllStories.bind(this);
+    this.fetchAllStories();
   }
 
   render() {
@@ -60,23 +60,23 @@ class Main extends React.Component {
    * Sort stories by score
    */
   sortByScore() {
-    _posts.sort(function (a, b) {
+    _storyPile.sort(function (a, b) {
       return a.score > b.score ? -1 : 1;
     });
-    this.setState({ items: _posts, sort: CONFIG.sortTypes.SCORE });
+    this.setState({ items: _storyPile, sort: CONFIG.sortTypes.SCORE });
   }
 
   /**
    * Sort stories by number of comments
    */
   sortByComments() {
-    _posts.sort(function (a, b) {
+    _storyPile.sort(function (a, b) {
       return b.descendants - a.descendants;
     });
-    this.setState({ items: _posts, sort: CONFIG.sortTypes.COMMENTS });
+    this.setState({ items: _storyPile, sort: CONFIG.sortTypes.COMMENTS });
   }
 
-  refresh() {
+  fetchAllStories() {
     _stories.fetch()
       .then(json => {
         json.forEach(this.fetchStory.bind(this));
@@ -84,29 +84,38 @@ class Main extends React.Component {
   }
 
   fetchStory(id) {
-    let self = this;
     _stories.fetchOne(id)
-      .then(function (response) {
-        if (response.score > CONFIG.minScoreForTopStory) {
-          response.visited = false;
-          _posts.push(response);
-          return true;
-        }
-      })
-      .then(function (isPushed) {
-        if (isPushed) {
-          switch (self.state.sort) {
-            case CONFIG.sortTypes.SCORE:
-              self.sortByScore();
-              break;
-            case CONFIG.sortTypes.COMMENTS:
-              self.sortByComments();
-              break
-            case CONFIG.sortTypes.AGE:
-            // TODO: Implement sorting by age of story
-          }
-        }
-      });
+      .then(this.addStoryToPile)
+      .then(this.sortStories.bind(this));
+  }
+
+  /**
+   * Check if this story should be added to the pile
+   * @param story
+   * @returns {boolean}
+   */
+  addStoryToPile(story) {
+    if (story.score > CONFIG.minScoreForTopStory) {
+      story.visited = false;
+      _storyPile.push(story);
+      return true;
+    }
+    return false;
+  }
+
+  sortStories(isPushed) {
+    if (isPushed) {
+      switch (this.state.sort) {
+        case CONFIG.sortTypes.SCORE:
+          this.sortByScore();
+          break;
+        case CONFIG.sortTypes.COMMENTS:
+          this.sortByComments();
+          break
+        case CONFIG.sortTypes.AGE:
+        // TODO: Implement sorting by age of story
+      }
+    }
   }
 }
 
