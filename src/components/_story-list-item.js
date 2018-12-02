@@ -4,11 +4,11 @@ import { Helpers } from '../libraries/_helpers.js';
 export class StoryListItem extends React.Component {
   constructor(props) {
     super(props);
-    this.hostname = this.hostname.bind(this);
+    StoryListItem.hostname = StoryListItem.hostname.bind(this);
     this.classes = this.classes.bind(this);
   }
 
-  hostname(url) {
+  static hostname(url) {
     const hostname = Helpers.hostname(url);
     if (hostname) {
       return `(${hostname})`;
@@ -32,7 +32,7 @@ export class StoryListItem extends React.Component {
       <ul>
         { this.props.items.map(item => (
           <li onClick={this.props.changeStory.bind(null, item)} key={item.id} className={this.classes(item)}>
-            <span className="title">{item.title} <small>{this.hostname(item.url)}</small></span>
+            <span className="title">{item.title} <small>{StoryListItem.hostname(item.url)}</small></span>
             <a href={item.url} title="Open in new window/tab" target="_blank">[>]</a>
             <div>
               <small>S: {item.score} | {moment(item.time * 1000).fromNow()} | C: {item.descendants} | <a href={CONFIG.hnCommentsPage(item.id)} target="_blank" rel="nofollow" title="Go to Hacker News post">[hn >]</a></small>

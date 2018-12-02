@@ -1,6 +1,6 @@
 /* VARIABLES */
 :root {
-  --bg: #FFFFFF;
+  --bg: #ece9e0;
   --primary: #424242;
   --visited: #949494;
 }
@@ -16,6 +16,7 @@ html, body {
   font-size: 16px;
   font-family: Consolas, Monaco, "Courier New", monospace;
   color: var(--primary);
+  background-color: var(--bg);
 }
 a {
   color: var(--primary);
@@ -73,8 +74,27 @@ a:hover {
   padding-top: 1rem;
   padding-bottom: 1rem;
   background-color: var(--primary);
-  color: #fff;
+  color: var(--bg);
   font-weight: bold;
+}
+.container .header a {
+  color: var(--bg);
+  padding-left: .5rem;
+  padding-right: .5rem;
+  cursor: pointer;
+}
+.container .header a:first-child {
+  border-right: 2px solid var(--bg);
+}
+.container .header a:last-child {
+  border-left: 2px solid var(--bg);
+}
+.container .header a:nth-child(2) {
+  margin-left: -2px;
+  margin-right: -2px;
+}
+.container .header a.active {
+  border-bottom: 2px solid var(--bg);
 }
 .container .header > div {
   display: flex;
