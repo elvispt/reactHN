@@ -13,6 +13,7 @@ class Main extends React.Component {
     super(props);
     this.state = {
       page: CONFIG.pages.TOP,
+      sort: CONFIG.sortTypes.SCORE,
       active: -666,
       items: [{id: -666, title: "Loading stories...", score: 0, descendants: 0, by: '', visited: false}],
       story: { title: "Click on a story"}
@@ -21,13 +22,21 @@ class Main extends React.Component {
     this.refresh();
     this.changeStory = this.changeStory.bind(this);
     this.changePage = this.changePage.bind(this);
+    this.sortByScore = this.sortByScore.bind(this);
+    this.sortByComments = this.sortByComments.bind(this);
   }
 
   render() {
     return (
       <div id="container" className="container">
         <Header page={this.state.page} changePage={this.changePage}/>
-        <StoryList items={this.state.items} changeStory={this.changeStory} active={this.state.active}/>
+        <StoryList items={this.state.items}
+                   changeStory={this.changeStory}
+                   active={this.state.active}
+                   sort={this.state.sort}
+                   sortByScore={this.sortByScore}
+                   sortByComments={this.sortByComments}
+        />
         <Content story={this.state.story}/>
       </div>
     );
@@ -50,32 +59,53 @@ class Main extends React.Component {
   /**
    * Sort stories by score
    */
-  static sortByScore() {
+  sortByScore() {
     _posts.sort(function (a, b) {
       return a.score > b.score ? -1 : 1;
     });
+    this.setState({ items: _posts, sort: CONFIG.sortTypes.SCORE });
+  }
+
+  /**
+   * Sort stories by number of comments
+   */
+  sortByComments() {
+    _posts.sort(function (a, b) {
+      return b.descendants - a.descendants;
+    });
+    this.setState({ items: _posts, sort: CONFIG.sortTypes.COMMENTS });
   }
 
   refresh() {
-    let self = this;
     _stories.fetch()
       .then(json => {
-        json.forEach(id => {
-          _stories.fetchOne(id)
-            .then(function (response) {
-              if (response.score > CONFIG.minScoreForTopStory) {
-                response.visited = false;
-                _posts.push(response);
-                return true;
-              }
-            })
-            .then(function (isPushed) {
-              if (isPushed) {
-                Main.sortByScore();
-                self.setState({ items: _posts });
-              }
-            });
-        });
+        json.forEach(this.fetchStory.bind(this));
+      });
+  }
+
+  fetchStory(id) {
+    let self = this;
+    _stories.fetchOne(id)
+      .then(function (response) {
+        if (response.score > CONFIG.minScoreForTopStory) {
+          response.visited = false;
+          _posts.push(response);
+          return true;
+        }
+      })
+      .then(function (isPushed) {
+        if (isPushed) {
+          switch (self.state.sort) {
+            case CONFIG.sortTypes.SCORE:
+              self.sortByScore();
+              break;
+            case CONFIG.sortTypes.COMMENTS:
+              self.sortByComments();
+              break
+            case CONFIG.sortTypes.AGE:
+            // TODO: Implement sorting by age of story
+          }
+        }
       });
   }
 }
