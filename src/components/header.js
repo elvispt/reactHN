@@ -8,6 +8,10 @@ export class Header extends React.Component {
     this.BEST = CONFIG.pages.BEST;
   }
 
+  className(page) {
+    return this.props.page === page ? 'active' : '';
+  }
+
   render() {
     return (
       <div id="header" className="header">
@@ -15,11 +19,11 @@ export class Header extends React.Component {
           reactHN
           <span>
             <a onClick={this.props.changePage.bind(null, this.TOP)}
-               className={this.props.page === this.TOP ? 'active' : ''}>TOP</a>
+               className={this.className(this.TOP)}>TOP</a>
             <a onClick={this.props.changePage.bind(null, this.NEW)}
-               className={this.props.page === this.NEW ? 'active' : ''}>NEW</a>
+               className={this.className(this.NEW)}>NEW</a>
             <a onClick={this.props.changePage.bind(null, this.BEST)}
-               className={this.props.page === this.BEST ? 'active' : ''}>BEST</a>
+               className={this.className(this.BEST)}>BEST</a>
           </span>
         </div>
       </div>
