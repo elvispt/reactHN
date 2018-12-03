@@ -22,6 +22,7 @@ class Main extends React.Component {
     this.changePage = this.changePage.bind(this);
     this.sortByScore = this.sortByScore.bind(this);
     this.sortByComments = this.sortByComments.bind(this);
+    this.sortByAge = this.sortByAge.bind(this);
     this.fetchAllStories = this.fetchAllStories.bind(this);
     this.fetchAllStories();
   }
@@ -36,6 +37,7 @@ class Main extends React.Component {
                    sort={this.state.sort}
                    sortByScore={this.sortByScore}
                    sortByComments={this.sortByComments}
+                   sortByAge={this.sortByAge}
         />
         <Content story={this.state.story}/>
       </div>
@@ -43,7 +45,7 @@ class Main extends React.Component {
   }
 
   changeStory(story) {
-    this.setState({story: story, active: story.id });
+    this.setState({story: story, active: story.id }, undefined);
     story.visited = true;
   }
 
@@ -53,7 +55,7 @@ class Main extends React.Component {
    * @param page
    */
   changePage(page) {
-    this.setState({page});
+    this.setState({page}, undefined);
   }
 
   /**
@@ -63,7 +65,7 @@ class Main extends React.Component {
     _storyPile.sort(function (a, b) {
       return a.score > b.score ? -1 : 1;
     });
-    this.setState({ items: _storyPile, sort: CONFIG.sortTypes.SCORE });
+    this.setState({ items: _storyPile, sort: CONFIG.sortTypes.SCORE }, undefined);
   }
 
   /**
@@ -73,7 +75,14 @@ class Main extends React.Component {
     _storyPile.sort(function (a, b) {
       return b.descendants - a.descendants;
     });
-    this.setState({ items: _storyPile, sort: CONFIG.sortTypes.COMMENTS });
+    this.setState({ items: _storyPile, sort: CONFIG.sortTypes.COMMENTS }, undefined);
+  }
+
+  sortByAge() {
+    _storyPile.sort(function (a, b) {
+      return b.time - a.time;
+    });
+    this.setState({ items: _storyPile, sort: CONFIG.sortTypes.AGE }, undefined);
   }
 
   fetchAllStories() {
@@ -113,7 +122,8 @@ class Main extends React.Component {
           this.sortByComments();
           break
         case CONFIG.sortTypes.AGE:
-        // TODO: Implement sorting by age of story
+          this.sortByAge();
+          break;
       }
     }
   }

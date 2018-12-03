@@ -23,6 +23,7 @@ export class StoryList extends React.Component {
           ><div>COMMENTS</div></button>
           <button type="button"
                   className={this.props.sort === this.AGE ? 'active' : ''}
+                  onClick={this.props.sortByAge}
           ><div>AGE</div></button>
         </div>
         <StoryListItem items={this.props.items} changeStory={this.props.changeStory} active={this.props.active}/>
