@@ -61,28 +61,33 @@ class Main extends React.Component {
   /**
    * Sort stories by score
    */
-  sortByScore() {
-    _storyPile.sort(function (a, b) {
-      return a.score > b.score ? -1 : 1;
-    });
+  sortByScore(direction) {
+    _storyPile.sort(this.sortExpression(direction, 'score'));
     this.setState({ items: _storyPile, sort: CONFIG.sortTypes.SCORE }, undefined);
   }
 
   /**
    * Sort stories by number of comments
    */
-  sortByComments() {
-    _storyPile.sort(function (a, b) {
-      return b.descendants - a.descendants;
-    });
+  sortByComments(direction) {
+    _storyPile.sort(this.sortExpression(direction, 'descendants'));
     this.setState({ items: _storyPile, sort: CONFIG.sortTypes.COMMENTS }, undefined);
   }
 
-  sortByAge() {
-    _storyPile.sort(function (a, b) {
-      return b.time - a.time;
-    });
+  sortByAge(direction) {
+    console.log(direction);
+    _storyPile.sort(this.sortExpression(direction, 'time'));
     this.setState({ items: _storyPile, sort: CONFIG.sortTypes.AGE }, undefined);
+  }
+
+  sortExpression(sortDirection, fieldName) {
+    let sortExpression;
+    if (sortDirection === CONFIG.sortDirection.ASC) {
+      sortExpression = (a, b) => a[fieldName] - b[fieldName];
+    } else {
+      sortExpression = (a, b) => b[fieldName] - a[fieldName];
+    }
+    return sortExpression;
   }
 
   fetchAllStories() {
@@ -94,7 +99,7 @@ class Main extends React.Component {
 
   fetchStory(id) {
     _stories.fetchOne(id)
-      .then(this.addStoryToPile)
+      .then(Main.addStoryToPile)
       .then(this.sortStories.bind(this));
   }
 
@@ -103,7 +108,7 @@ class Main extends React.Component {
    * @param story
    * @returns {boolean}
    */
-  addStoryToPile(story) {
+  static addStoryToPile(story) {
     if (story.score > CONFIG.minScoreForTopStory) {
       story.visited = false;
       _storyPile.push(story);

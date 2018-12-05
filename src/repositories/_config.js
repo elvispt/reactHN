@@ -13,4 +13,8 @@ export const CONFIG = {
     COMMENTS: 2,
     AGE: 3,
   },
+  sortDirection: {
+    ASC: 1,
+    DESC: 2,
+  },
 };
