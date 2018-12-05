@@ -9,8 +9,12 @@ export const CONFIG = {
     BEST: 3,
   },
   sortTypes: {
-    SCORE: 1,
-    COMMENTS: 2,
-    AGE: 3,
+    SCORE: 'score',
+    COMMENTS: 'descendants',
+    AGE: 'time',
+  },
+  sortDirection: {
+    ASC: 1,
+    DESC: 2,
   },
 };

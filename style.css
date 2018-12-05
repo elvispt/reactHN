@@ -136,6 +136,9 @@ a:hover {
 .container .story-list .sort-by > button.active > div {
   border-bottom-color: var(--primary);
 }
+.container .story-list .sort-by > button.active.ascending > div {
+  border-bottom-style: dashed;
+}
 
 .container .story-list ul {
   list-style-type: none;
