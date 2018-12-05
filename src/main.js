@@ -75,7 +75,6 @@ class Main extends React.Component {
   }
 
   sortByAge(direction) {
-    console.log(direction);
     _storyPile.sort(this.sortExpression(direction, 'time'));
     this.setState({ items: _storyPile, sort: CONFIG.sortTypes.AGE }, undefined);
   }
