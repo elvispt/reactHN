@@ -20,9 +20,7 @@ class Main extends React.Component {
     };
     this.changeStory = this.changeStory.bind(this);
     this.changePage = this.changePage.bind(this);
-    this.sortByScore = this.sortByScore.bind(this);
-    this.sortByComments = this.sortByComments.bind(this);
-    this.sortByAge = this.sortByAge.bind(this);
+    this.sortBy = this.sortBy.bind(this);
     this.fetchAllStories = this.fetchAllStories.bind(this);
     this.fetchAllStories();
   }
@@ -35,9 +33,7 @@ class Main extends React.Component {
                    changeStory={this.changeStory}
                    active={this.state.active}
                    sort={this.state.sort}
-                   sortByScore={this.sortByScore}
-                   sortByComments={this.sortByComments}
-                   sortByAge={this.sortByAge}
+                   sortBy={this.sortBy}
         />
         <Content story={this.state.story}/>
       </div>
@@ -58,25 +54,9 @@ class Main extends React.Component {
     this.setState({page}, undefined);
   }
 
-  /**
-   * Sort stories by score
-   */
-  sortByScore(direction) {
-    _storyPile.sort(this.sortExpression(direction, 'score'));
-    this.setState({ items: _storyPile, sort: CONFIG.sortTypes.SCORE }, undefined);
-  }
-
-  /**
-   * Sort stories by number of comments
-   */
-  sortByComments(direction) {
-    _storyPile.sort(this.sortExpression(direction, 'descendants'));
-    this.setState({ items: _storyPile, sort: CONFIG.sortTypes.COMMENTS }, undefined);
-  }
-
-  sortByAge(direction) {
-    _storyPile.sort(this.sortExpression(direction, 'time'));
-    this.setState({ items: _storyPile, sort: CONFIG.sortTypes.AGE }, undefined);
+  sortBy(type, direction) {
+    _storyPile.sort(this.sortExpression(direction, type));
+    this.setState({ items: _storyPile, sort: type }, undefined);
   }
 
   sortExpression(sortDirection, fieldName) {
@@ -118,17 +98,7 @@ class Main extends React.Component {
 
   sortStories(isPushed) {
     if (isPushed) {
-      switch (this.state.sort) {
-        case CONFIG.sortTypes.SCORE:
-          this.sortByScore();
-          break;
-        case CONFIG.sortTypes.COMMENTS:
-          this.sortByComments();
-          break
-        case CONFIG.sortTypes.AGE:
-          this.sortByAge();
-          break;
-      }
+      this.sortBy(this.state.sort);
     }
   }
 }

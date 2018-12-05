@@ -50,7 +50,7 @@ export class StoryList extends React.Component {
         if (this.state.prev === this.SCORE) {
           sortDirection = StoryList.toggleSortDirection(sortDirection);
         }
-        this.props.sortByScore(sortDirection);
+        this.props.sortBy(this.SCORE, sortDirection);
         this.setState({prev: this.SCORE, sortScore: sortDirection}, undefined);
         break;
       case this.COMMENTS:
@@ -58,7 +58,7 @@ export class StoryList extends React.Component {
         if (this.state.prev === this.COMMENTS) {
           sortDirection = StoryList.toggleSortDirection(sortDirection);
         }
-        this.props.sortByComments(sortDirection);
+        this.props.sortBy(this.COMMENTS, sortDirection);
         this.setState({prev: this.COMMENTS, sortComments: sortDirection}, undefined);
         break;
       case this.AGE:
@@ -66,7 +66,7 @@ export class StoryList extends React.Component {
         if (this.state.prev === this.AGE) {
           sortDirection = StoryList.toggleSortDirection(sortDirection);
         }
-        this.props.sortByAge(sortDirection);
+        this.props.sortBy(this.AGE, sortDirection);
         this.setState({prev: this.AGE, sortAge: sortDirection}, undefined);
         break;
     }
