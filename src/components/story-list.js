@@ -46,36 +46,29 @@ export class StoryList extends React.Component {
     let sortDirection;
     switch (sortType) {
       case this.SCORE:
-        sortDirection = this.state.sortScore;
-        if (this.state.prev === this.SCORE) {
-          sortDirection = StoryList.toggleSortDirection(sortDirection);
-        }
-        this.props.sortBy(this.SCORE, sortDirection);
+        sortDirection = StoryList.toggleSortDirection(this.state.sortScore, this.state.prev, this.SCORE);
         this.setState({prev: this.SCORE, sortScore: sortDirection}, undefined);
         break;
       case this.COMMENTS:
-        sortDirection = this.state.sortComments;
-        if (this.state.prev === this.COMMENTS) {
-          sortDirection = StoryList.toggleSortDirection(sortDirection);
-        }
-        this.props.sortBy(this.COMMENTS, sortDirection);
+        sortDirection = StoryList.toggleSortDirection(this.state.sortComments, this.state.prev, this.COMMENTS);
         this.setState({prev: this.COMMENTS, sortComments: sortDirection}, undefined);
         break;
       case this.AGE:
-        sortDirection = this.state.sortAge;
-        if (this.state.prev === this.AGE) {
-          sortDirection = StoryList.toggleSortDirection(sortDirection);
-        }
-        this.props.sortBy(this.AGE, sortDirection);
+        sortDirection = StoryList.toggleSortDirection(this.state.sortAge, this.state.prev, this.AGE);
         this.setState({prev: this.AGE, sortAge: sortDirection}, undefined);
         break;
     }
+    this.props.sortBy(sortType, sortDirection);
   }
 
-  static toggleSortDirection(sortDirection) {
-    return sortDirection === CONFIG.sortDirection.ASC
-      ? CONFIG.sortDirection.DESC
-      : CONFIG.sortDirection.ASC;
+  static toggleSortDirection(def, prev, current) {
+    let sortDirection = def;
+    if (prev === current) {
+      sortDirection = sortDirection === CONFIG.sortDirection.ASC
+        ? CONFIG.sortDirection.DESC
+        : CONFIG.sortDirection.ASC;
+    }
+    return sortDirection;
   }
 
   render() {
