@@ -1,7 +1,7 @@
-import { StoryListItem } from './_story-list-item.js';
-import { CONFIG } from '../repositories/_config.js';
+import StoryListItem from './_story-list-item.js';
+import CONFIG from '../repositories/_config.js';
 
-export class StoryList extends React.Component {
+export default class StoryList extends React.Component {
   constructor(props) {
     super(props);
     this.SCORE = CONFIG.sortTypes.SCORE;

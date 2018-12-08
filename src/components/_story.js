@@ -1,24 +1,15 @@
-import { Helpers } from '../libraries/_helpers.js';
+import Helpers from '../libraries/_helpers.js';
 
-export class Story extends React.Component {
+export default class Story extends React.Component {
   constructor(props) {
     super(props);
-    Story.hostname = Story.hostname.bind(this);
-  }
-
-  static hostname(url) {
-    const hostname = Helpers.hostname(url);
-    if (hostname) {
-      return `(${hostname})`;
-    }
-    return '';
   }
 
   render() {
     return (
       <div className="story">
         <div>
-          {this.props.story.title} <small>{Story.hostname(this.props.story.url)}</small>
+          {this.props.story.title} <small>{Helpers.hostname(this.props.story.url)}</small>
           <div>
             <small>
               <span>{this.props.story.score}</span> |

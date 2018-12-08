@@ -1,7 +1,7 @@
-import { CONFIG } from '../repositories/_config.js';
-import { Helpers } from '../libraries/_helpers.js';
+import CONFIG from '../repositories/_config.js';
+import Helpers from '../libraries/_helpers.js';
 
-export class StoryListItem extends React.Component {
+export default class StoryListItem extends React.Component {
   constructor(props) {
     super(props);
     StoryListItem.hostname = StoryListItem.hostname.bind(this);

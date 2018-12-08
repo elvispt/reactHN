@@ -1,8 +1,8 @@
-import { CONFIG } from './_config.js';
+import CONFIG from './_config.js';
 
 let topStoriesIds = [];
 
-export const _stories = {
+export default {
 
   fetch: function () {
     return new Promise(function (resolve, reject) {

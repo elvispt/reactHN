@@ -1,6 +1,6 @@
-import { CONFIG } from '../repositories/_config.js';
+import CONFIG from '../repositories/_config.js';
 
-export class Header extends React.Component {
+export default class Header extends React.Component {
   constructor(props) {
     super(props);
     this.TOP = CONFIG.pages.TOP;

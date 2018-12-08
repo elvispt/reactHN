@@ -1,5 +1,7 @@
-
-export class Helpers {
+/**
+ * Helpers to be used on the entire project
+ */
+export default class Helpers {
   /**
    * Parses a string to attempt to find a domain
    * @param url
