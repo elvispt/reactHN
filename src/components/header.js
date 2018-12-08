@@ -17,6 +17,7 @@ export class Header extends React.Component {
       <div id="header" className="header">
         <div>
           reactHN
+          <small>stories: {this.props.items.length}</small>
           <span>
             <a onClick={this.props.changePage.bind(null, this.TOP)}
                className={this.className(this.TOP)}>TOP</a>

@@ -28,7 +28,10 @@ class Main extends React.Component {
   render() {
     return (
       <div id="container" className="container">
-        <Header page={this.state.page} changePage={this.changePage}/>
+        <Header page={this.state.page}
+                changePage={this.changePage}
+                items={this.state.items}
+        />
         <StoryList items={this.state.items}
                    changeStory={this.changeStory}
                    active={this.state.active}
@@ -78,7 +81,7 @@ class Main extends React.Component {
 
   fetchStory(id) {
     _stories.fetchOne(id)
-      .then(Main.addStoryToPile)
+      .then(Main.shouldAddStoryToPile)
       .then(this.sortStories.bind(this));
   }
 
@@ -87,8 +90,9 @@ class Main extends React.Component {
    * @param story
    * @returns {boolean}
    */
-  static addStoryToPile(story) {
-    if (story.score > CONFIG.minScoreForTopStory) {
+  static shouldAddStoryToPile(story) {
+    if (story.score > CONFIG.minScoreForTopStory
+      && story.descendants > CONFIG.minCommentsForTopStory) {
       story.visited = false;
       _storyPile.push(story);
       return true;

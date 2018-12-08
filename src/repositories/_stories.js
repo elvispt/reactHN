@@ -9,12 +9,7 @@ export const _stories = {
       if (topStoriesIds.length) {
         resolve(topStoriesIds);
       } else {
-        fetch(CONFIG.topStoriesUrl)
-          .then(response => response.json())
-          .then(json => {
-            topStoriesIds = json;
-            resolve(topStoriesIds);
-          });
+        fetchFromApi(resolve, reject);
       }
     });
   },
@@ -25,5 +20,13 @@ export const _stories = {
     })
       .then(response => response.json());
   }
-
 };
+
+function fetchFromApi(resolve, reject) {
+  return fetch(CONFIG.topStoriesUrl)
+    .then(response => response.json())
+    .then(json => {
+      topStoriesIds = json;
+      resolve(topStoriesIds);
+    });
+}
