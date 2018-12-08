@@ -3,6 +3,7 @@ export const CONFIG = {
   itemUrl: id => `https://hacker-news.firebaseio.com/v0/item/${id}.json`,
   hnCommentsPage: id => `https://news.ycombinator.com/item?id=${id}`,
   minScoreForTopStory: 150,
+  minCommentsForTopStory: 20,
   pages: {
     TOP: 1,
     NEW: 2,
