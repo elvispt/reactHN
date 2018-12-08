@@ -28,7 +28,10 @@ class Main extends React.Component {
   render() {
     return (
       <div id="container" className="container">
-        <Header page={this.state.page} changePage={this.changePage}/>
+        <Header page={this.state.page}
+                changePage={this.changePage}
+                items={this.state.items}
+        />
         <StoryList items={this.state.items}
                    changeStory={this.changeStory}
                    active={this.state.active}
