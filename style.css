@@ -167,3 +167,10 @@ a:hover {
 .container .story-list ul li:hover .title {
   font-weight: bold;
 }
+
+.container .content .comments-listing .by {
+  color: var(--visited);
+}
+.container .content .comments-listing .text {
+  font-size: .9rem;
+}

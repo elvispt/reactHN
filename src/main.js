@@ -15,13 +15,28 @@ class Main extends React.Component {
       page: CONFIG.pages.TOP,
       sort: CONFIG.sortTypes.SCORE,
       active: -666,
-      items: [{id: -666, title: "Loading stories...", score: 0, descendants: 0, by: '', visited: false}],
+      items: [{
+        id: -666,
+        title: "Loading stories...",
+        score: 0,
+        descendants: 0,
+        by: '',
+        visited: false,
+        comments: [{
+          id: -999,
+          by: '',
+          text: '',
+          kids: [],
+          time: 0,
+        }],
+      }],
       story: { title: "Click on a story"}
     };
     this.changeStory = this.changeStory.bind(this);
     this.changePage = this.changePage.bind(this);
     this.sortBy = this.sortBy.bind(this);
     this.fetchAllStories = this.fetchAllStories.bind(this);
+    Main.loadComment = Main.loadComment.bind(this);
     this.fetchAllStories();
   }
 
@@ -46,6 +61,20 @@ class Main extends React.Component {
   changeStory(story) {
     this.setState({story: story, active: story.id }, undefined);
     story.visited = true;
+
+    if (!story.commentsLoaded) {
+      story.commentsLoaded = true;
+      story.kids.forEach(kid => {
+        Main.loadComment(kid)
+          .then(r => {
+            if (r) {
+              r.collapsed = false;
+              story.comments.push(r);
+              this.setState({story: story, active: story.id }, undefined);
+            }
+          });
+      });
+    }
   }
 
   /**
@@ -94,6 +123,8 @@ class Main extends React.Component {
     if (story.score > CONFIG.minScoreForTopStory
       && story.descendants > CONFIG.minCommentsForTopStory) {
       story.visited = false;
+      story.comments = [];
+      story.commentsLoaded = false;
       _storyPile.push(story);
       return true;
     }
@@ -104,6 +135,15 @@ class Main extends React.Component {
     if (isPushed) {
       this.sortBy(this.state.sort);
     }
+  }
+
+  static loadComment(kid) {
+    return _stories.fetchOne(kid)
+      .then(function (r) {
+        if (!r.dead && !r.deleted) {
+          return r;
+        }
+      });
   }
 }
 
