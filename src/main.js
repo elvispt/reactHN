@@ -64,16 +64,7 @@ class Main extends React.Component {
 
     if (!story.commentsLoaded) {
       story.commentsLoaded = true;
-      story.kids.forEach(kid => {
-        Main.loadComment(kid)
-          .then(r => {
-            if (r) {
-              r.collapsed = false;
-              story.comments.push(r);
-              this.setState({story: story, active: story.id }, undefined);
-            }
-          });
-      });
+      this.loadComments(story);
     }
   }
 
@@ -137,9 +128,21 @@ class Main extends React.Component {
     }
   }
 
-  static loadComment(kid) {
-    return _stories.fetchOne(kid)
-      .then(function (r) {
+  loadComments(story) {
+    story.kids.forEach((kid, index) => {
+      Main.loadComment(kid)
+        .then(comment => {
+          if (comment) {
+            story.comments[index] = comment;
+            this.setState({story: story}, null);
+          }
+        });
+    });
+  }
+
+  static loadComment(id) {
+    return _stories.fetchOne(id)
+      .then(r => {
         if (!r.dead && !r.deleted) {
           return r;
         }
