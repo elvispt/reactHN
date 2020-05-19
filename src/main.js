@@ -42,17 +42,19 @@ class Main extends React.Component {
 
   render() {
     return (
-      <div id="container" className="container">
-        <Header page={this.state.page}
-                changePage={this.changePage}
-                items={this.state.items}
-        />
-        <StoryList items={this.state.items}
-                   changeStory={this.changeStory}
-                   active={this.state.active}
-                   sort={this.state.sort}
-                   sortBy={this.sortBy}
-        />
+      <div className="wrapper">
+        <div id="container" className="container">
+          <Header page={this.state.page}
+                  changePage={this.changePage}
+                  items={this.state.items}
+          />
+          <StoryList items={this.state.items}
+                     changeStory={this.changeStory}
+                     active={this.state.active}
+                     sort={this.state.sort}
+                     sortBy={this.sortBy}
+          />
+        </div>
         <Content story={this.state.story}/>
       </div>
     );
@@ -64,7 +66,7 @@ class Main extends React.Component {
 
     if (!story.commentsLoaded) {
       story.commentsLoaded = true;
-      this.loadComments(story);
+      this.loadComments(story.kids || [], story);
     }
   }
 
@@ -128,13 +130,28 @@ class Main extends React.Component {
     }
   }
 
-  loadComments(story) {
-    story.kids.forEach((kid, index) => {
+  loadComments(kids, story) {
+    kids.forEach((kid, index) => {
       Main.loadComment(kid)
         .then(comment => {
           if (comment) {
-            story.comments[index] = comment;
+            if (comment.kids && comment.kids.length) {
+              comment.comments =[];
+              return this.loadComments(comment.kids, story)
+                .then(c => {
+                  comment.comments.push(c);
+                  return comment;
+                });
+            } else {
+              return comment;
+            }
+          }
+        })
+        .then(c => {
+          if (c) {
+            story.comments[index] = c;
             this.setState({story: story}, null);
+            console.log(story);
           }
         });
     });

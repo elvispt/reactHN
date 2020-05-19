@@ -5,7 +5,7 @@ export default class Comment extends React.Component {
 
 
   buildItem(comment) {
-
+// console.log(comment);
     if (comment) {
       return (
         <div key={comment.id} className="comment">

@@ -25,22 +25,23 @@ a {
 a:hover {
   text-decoration: none;
 }
+.hidden {
+  display: none;
+}
 /* ./GLOBAL STYLES */
 
 /* GRID DEFINITION */
 .container {
-  padding: .2rem;
   display: grid;
   height: 100vh;
   grid-gap: .5rem;
-  grid-template-columns: 1fr 2fr;
-  grid-template-rows: auto 1fr;
-  /* */
+  grid-template-columns: 100%;
+  grid-template-rows: 67px 1fr;
   grid-template-areas:
-    "header header"
-    "story-list content";
-  /**/
+    "header"
+    "story-list";
 }
+/*
 @media (max-width: 768px) {
   .container {
     grid-template-areas:
@@ -50,15 +51,13 @@ a:hover {
     ;
   }
 }
+*/
 .container .header {
   grid-area: header;
 }
 
 .container .story-list {
   grid-area: story-list;
-}
-.container .content {
-  grid-area: content;
 }
 /* ./GRID DEFINITION */
 
@@ -168,9 +167,29 @@ a:hover {
   font-weight: bold;
 }
 
+.wrapper .content {
+  position: absolute;
+  top: 83px;
+  background: white;
+  padding: 1rem;
+  margin: 0.2rem;
+  box-shadow: 0px 0px 10px grey;
+  width: calc(100% - .4rem);
+}
+.wrapper .content .close-line{
+  position: absolute;
+  top: -13px;
+  text-align: center;
+  width: 100%;
+}
+.wrapper .content pre {
+  overflow: scroll;
+}
+
 .container .content .comments-listing .by {
   color: var(--visited);
 }
 .container .content .comments-listing .text {
   font-size: .9rem;
 }
+
